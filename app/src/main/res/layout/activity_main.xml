@@ -1,18 +1,11 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
+<android.support.v4.widget.SlidingPaneLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/sliding_pane_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <RelativeLayout
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity" >
-
-    </RelativeLayout>
+    android:layout_height="match_parent">
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/left_pane"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:background="#ff267d9d"
@@ -20,4 +13,92 @@
         android:divider="#005875"
         android:dividerHeight="2dp"
         android:layout_gravity="left" />
-</android.support.v4.widget.DrawerLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+        <TabHost android:id="@android:id/tabhost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TabWidget android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@android:id/tabs" />
+
+                <FrameLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@android:id/tabcontent" >
+
+                    <LinearLayout android:id="@+id/tab1"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ff9bc3dc">
+
+                        <TextView android:id="@+id/textView1"
+                            android:text="Contenido Tab 1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:layout_width="47dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/btn_circle"
+                            android:layout_gravity="right"
+                            android:text="+"
+                            android:textSize="30dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout android:id="@+id/tab2"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ff9bc3dc" >
+
+                        <TextView android:id="@+id/textView2"
+                            android:text="Contenido Tab 2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:layout_width="47dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/btn_circle"
+                            android:layout_gravity="right"
+                            android:text="+"
+                            android:textSize="30dp" />
+                    </LinearLayout>
+
+                    <LinearLayout android:id="@+id/tab3"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#ff9bc3dc" >
+
+                        <TextView android:id="@+id/textView3"
+                            android:text="Contenido Tab 3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:layout_width="47dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/btn_circle"
+                            android:layout_gravity="right"
+                            android:text="+"
+                            android:textSize="30dp" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    </LinearLayout>
+
+</android.support.v4.widget.SlidingPaneLayout>
