@@ -16,12 +16,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends ActionBarActivity {
 
-    private ListView listView;
+    private ListView listView, listView1, listView2, listView3;
     private SlidingPaneLayout mSlidingLayout;
-    private final String[] opciones = { "Opción 1", "Opción 2", "Opción 3", "Opción 4" };
+    private final String[] opciones = { "Opción 1", "Opción 2"};
     TabHost.TabSpec spec;
     TabHost tabs;
 
@@ -32,7 +35,43 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.left_pane);
+        listView1 = (ListView) findViewById(R.id.listView1);
+        listView2 = (ListView) findViewById(R.id.listView2);
+        listView3 = (ListView) findViewById(R.id.listView3);
         mSlidingLayout = (SlidingPaneLayout) findViewById(R.id.sliding_pane_layout);
+
+        List<String> lista1 = new ArrayList<>();
+        lista1.add("Primero");
+        lista1.add("Segundo");
+        lista1.add("Primero");
+        lista1.add("Segundo");
+        lista1.add("Primero");
+
+        listView1.setAdapter(new ArrayAdapter<>(this,
+                R.layout.my_layout, android.R.id.text1,
+                lista1));
+
+        List<String> lista2 = new ArrayList<>();
+        lista2.add("Primero");
+        lista2.add("Segundo");
+        lista2.add("Primero");
+        lista2.add("Segundo");
+        lista2.add("Primero");
+
+        listView2.setAdapter(new ArrayAdapter<>(this,
+                R.layout.my_layout, android.R.id.text1,
+                lista2));
+
+        List<String> lista3 = new ArrayList<>();
+        lista3.add("Primero");
+        lista3.add("Segundo");
+        lista3.add("Primero");
+        lista3.add("Segundo");
+        lista3.add("Primero");
+
+        listView3.setAdapter(new ArrayAdapter<>(this,
+                R.layout.my_layout, android.R.id.text1,
+                lista3));
 
         listView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
