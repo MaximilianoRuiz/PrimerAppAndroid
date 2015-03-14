@@ -1,6 +1,7 @@
 package com.example.maxi.nomorefat;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,11 +11,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,37 +46,52 @@ public class MainActivity extends ActionBarActivity {
         mSlidingLayout = (SlidingPaneLayout) findViewById(R.id.sliding_pane_layout);
 
         List<String> lista1 = new ArrayList<>();
-        lista1.add("Primero");
-        lista1.add("Segundo");
-        lista1.add("Primero");
-        lista1.add("Segundo");
-        lista1.add("Primero");
+        lista1.add("60 kg");
+        lista1.add("61 kg");
+        lista1.add("62 kg");
+        lista1.add("70 kg");
+        lista1.add("31 kg");
+        List<String> lista1_1 = new ArrayList<>();
+        lista1_1.add("62 kg");
+        lista1_1.add("70 kg");
+        lista1_1.add("31 kg");
+        lista1_1.add("31 kg");
+        lista1_1.add("31 kg");
 
-        listView1.setAdapter(new ArrayAdapter<>(this,
-                R.layout.my_layout, android.R.id.text1,
-                lista1));
+        ViewAdapter adapter1 = new ViewAdapter(this, lista1, lista1_1);
+        listView1.setAdapter(adapter1);
 
         List<String> lista2 = new ArrayList<>();
-        lista2.add("Primero");
-        lista2.add("Segundo");
-        lista2.add("Primero");
-        lista2.add("Segundo");
-        lista2.add("Primero");
+        lista2.add("60 kg");
+        lista2.add("61 kg");
+        lista2.add("62 kg");
+        lista2.add("70 kg");
+        lista2.add("31 kg");
+        List<String> lista2_1 = new ArrayList<>();
+        lista2_1.add("62 kg");
+        lista2_1.add("70 kg");
+        lista2_1.add("31 kg");
+        lista2_1.add("31 kg");
+        lista2_1.add("31 kg");
 
-        listView2.setAdapter(new ArrayAdapter<>(this,
-                R.layout.my_layout, android.R.id.text1,
-                lista2));
+        ViewAdapter adapter2 = new ViewAdapter(this, lista2, lista2_1);
+        listView2.setAdapter(adapter2);
 
         List<String> lista3 = new ArrayList<>();
-        lista3.add("Primero");
-        lista3.add("Segundo");
-        lista3.add("Primero");
-        lista3.add("Segundo");
-        lista3.add("Primero");
+        lista3.add("60 kg");
+        lista3.add("61 kg");
+        lista3.add("62 kg");
+        lista3.add("70 kg");
+        lista3.add("31 kg");
+        List<String> lista3_1 = new ArrayList<>();
+        lista3_1.add("62 kg");
+        lista3_1.add("70 kg");
+        lista3_1.add("31 kg");
+        lista3_1.add("31 kg");
+        lista3_1.add("31 kg");
 
-        listView3.setAdapter(new ArrayAdapter<>(this,
-                R.layout.my_layout, android.R.id.text1,
-                lista3));
+        ViewAdapter adapter3 = new ViewAdapter(this, lista3, lista3_1);
+        listView3.setAdapter(adapter3);
 
         listView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
@@ -120,6 +140,13 @@ public class MainActivity extends ActionBarActivity {
                     MainActivity.this.finish();
                 }
                 return true;
+            case KeyEvent.KEYCODE_MENU:
+                if (mSlidingLayout.isOpen()) {
+                    mSlidingLayout.closePane();
+                }else {
+                    mSlidingLayout.openPane();
+                }
+                return true;
         }
         return super.onKeyUp(keyCode, event);
     }
@@ -139,4 +166,29 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    class ViewAdapter extends ArrayAdapter<String> {
+        Context context;
+        List<String> morningArray;
+        List<String> nightArray;
+        ViewAdapter(Context c, List<String> morning, List<String> night) {
+            super(c, R.layout.single_row, R.id.textView2, morning);
+            this.context = c;
+            this.morningArray = morning;
+            this.nightArray = night;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View row = inflater.inflate(R.layout.single_row, parent, false);
+
+            TextView txtMorning = (TextView) row.findViewById(R.id.textView2);
+            TextView txtNight = (TextView) row.findViewById(R.id.textView4);
+
+            txtMorning.setText(morningArray.get(position));
+            txtNight.setText(nightArray.get(position));
+
+            return row;
+        }
+    }
 }
