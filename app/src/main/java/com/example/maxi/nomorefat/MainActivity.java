@@ -1,13 +1,8 @@
 package com.example.maxi.nomorefat;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SlidingPaneLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -20,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,5 +186,24 @@ public class MainActivity extends ActionBarActivity {
 
             return row;
         }
+    }
+
+    public void addDayDialog(View v){
+        AddDayDialog myDialog = new AddDayDialog();
+        myDialog.show(getFragmentManager(), "Dialog");
+    }
+
+    public void addWeekDialog(View v){
+        AddWeekDialog myDialog = new AddWeekDialog();
+        myDialog.show(getFragmentManager(), "Dialog");
+    }
+
+    public void addMonthDialog(View v){
+        AddMonthDialog myDialog = new AddMonthDialog();
+        myDialog.show(getFragmentManager(), "Dialog");
+    }
+
+    public void waitingToast(View v){
+        Toast.makeText(this, "WAIT! Programador trabajando duro como un exclavo", Toast.LENGTH_LONG).show();
     }
 }
