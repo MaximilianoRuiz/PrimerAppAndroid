@@ -1,33 +1,33 @@
 package com.example.maxi.nomorefat;
 
-import android.content.Context;
-import android.content.res.Resources;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SlidingPaneLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends ActionBarActivity implements ActionBar.TabListener{
 
-
-public class MainActivity extends ActionBarActivity {
-
-    private ListView listView, listView1, listView2, listView3;
+    private ListView listView;
     private SlidingPaneLayout mSlidingLayout;
     private final String[] opciones = { "Opción 1", "Opción 2"};
-    TabHost.TabSpec spec;
-    TabHost tabs;
+    private final String[] tabs = { "Days", "Weeks", "Months" };
+    private ViewPager viewPager;
+    private MyAdapter mAdapter;
+    private ActionBar actionBar;
 
 
     @Override
@@ -36,87 +36,50 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         listView = (ListView) findViewById(R.id.left_pane);
-        listView1 = (ListView) findViewById(R.id.listView1);
-        listView2 = (ListView) findViewById(R.id.listView2);
-        listView3 = (ListView) findViewById(R.id.listView3);
+
         mSlidingLayout = (SlidingPaneLayout) findViewById(R.id.sliding_pane_layout);
-
-        List<String> lista1 = new ArrayList<>();
-        lista1.add("60 kg");
-        lista1.add("61 kg");
-        lista1.add("62 kg");
-        lista1.add("70 kg");
-        lista1.add("31 kg");
-        List<String> lista1_1 = new ArrayList<>();
-        lista1_1.add("62 kg");
-        lista1_1.add("70 kg");
-        lista1_1.add("31 kg");
-        lista1_1.add("31 kg");
-        lista1_1.add("31 kg");
-
-        ViewAdapter adapter1 = new ViewAdapter(this, lista1, lista1_1);
-        listView1.setAdapter(adapter1);
-
-        List<String> lista2 = new ArrayList<>();
-        lista2.add("60 kg");
-        lista2.add("61 kg");
-        lista2.add("62 kg");
-        lista2.add("70 kg");
-        lista2.add("31 kg");
-        List<String> lista2_1 = new ArrayList<>();
-        lista2_1.add("62 kg");
-        lista2_1.add("70 kg");
-        lista2_1.add("31 kg");
-        lista2_1.add("31 kg");
-        lista2_1.add("31 kg");
-
-        ViewAdapter adapter2 = new ViewAdapter(this, lista2, lista2_1);
-        listView2.setAdapter(adapter2);
-
-        List<String> lista3 = new ArrayList<>();
-        lista3.add("60 kg");
-        lista3.add("61 kg");
-        lista3.add("62 kg");
-        lista3.add("70 kg");
-        lista3.add("31 kg");
-        List<String> lista3_1 = new ArrayList<>();
-        lista3_1.add("62 kg");
-        lista3_1.add("70 kg");
-        lista3_1.add("31 kg");
-        lista3_1.add("31 kg");
-        lista3_1.add("31 kg");
-
-        ViewAdapter adapter3 = new ViewAdapter(this, lista3, lista3_1);
-        listView3.setAdapter(adapter3);
 
         listView.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, android.R.id.text1,
                 opciones));
 
-        Resources res = getResources();
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setOnPageChangeListener( new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d("VIVZ", "onPageScrolled at position" + position);
+            }
 
-        tabs=(TabHost)findViewById(android.R.id.tabhost);
-        tabs.setup();
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+                Log.d("VIVZ","onPageSelected at position"+ position);
+            }
 
-        spec=tabs.newTabSpec("mitab1");
-        spec.setContent(R.id.tab1);
-        spec.setIndicator("Days",
-                res.getDrawable(android.R.drawable.ic_btn_speak_now));
-        tabs.addTab(spec);
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state==ViewPager.SCROLL_STATE_IDLE){
+                    Log.d("VIVZ","onPageScrollStateChanged idle");
+                }
+                if (state==ViewPager.SCROLL_STATE_DRAGGING){
+                    Log.d("VIVZ","onPageScrollStateChanged dragging");
+                }
+                if (state==ViewPager.SCROLL_STATE_SETTLING){
+                    Log.d("VIVZ","onPageScrollStateChanged settling");
+                }
+            }
+        });
+        actionBar = getSupportActionBar();
+        mAdapter = new MyAdapter(getSupportFragmentManager());
 
-        spec=tabs.newTabSpec("mitab2");
-        spec.setContent(R.id.tab2);
-        spec.setIndicator("Weeks",
-                res.getDrawable(android.R.drawable.ic_dialog_map));
-        tabs.addTab(spec);
+        viewPager.setAdapter(mAdapter);
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        spec=tabs.newTabSpec("mitab3");
-        spec.setContent(R.id.tab3);
-        spec.setIndicator("Months",
-                res.getDrawable(android.R.drawable.ic_dialog_map));
-        tabs.addTab(spec);
+        for (String tab_name : tabs) {
+            actionBar.addTab(actionBar.newTab().setText(tab_name)
+                    .setTabListener(this));
+        }
 
-        tabs.setCurrentTab(0);
     }
 
     @Override
@@ -153,39 +116,13 @@ public class MainActivity extends ActionBarActivity {
             case android.R.id.home:
                 if (mSlidingLayout.isOpen()) {
                     mSlidingLayout.closePane();
-                }else {
+                }else if(!mSlidingLayout.isOpen()&& viewPager.getCurrentItem()==0){
                     mSlidingLayout.openPane();
                 }
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    class ViewAdapter extends ArrayAdapter<String> {
-        Context context;
-        List<String> morningArray;
-        List<String> nightArray;
-        ViewAdapter(Context c, List<String> morning, List<String> night) {
-            super(c, R.layout.single_row, R.id.textView2, morning);
-            this.context = c;
-            this.morningArray = morning;
-            this.nightArray = night;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View row = inflater.inflate(R.layout.single_row, parent, false);
-
-            TextView txtMorning = (TextView) row.findViewById(R.id.textView2);
-            TextView txtNight = (TextView) row.findViewById(R.id.textView4);
-
-            txtMorning.setText(morningArray.get(position));
-            txtNight.setText(nightArray.get(position));
-
-            return row;
-        }
     }
 
     public void addDayDialog(View v){
@@ -206,4 +143,49 @@ public class MainActivity extends ActionBarActivity {
     public void waitingToast(View v){
         Toast.makeText(this, "WAIT! Programador trabajando duro como un exclavo", Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+        viewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+
+    }
+
 }
+
+class MyAdapter extends FragmentPagerAdapter{
+
+    public MyAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        Fragment fragment=null;
+        if (position==0){
+            fragment = new DayFragment();
+        }
+        if (position==1){
+            fragment = new WeekFragment();
+        }
+        if (position==2){
+            fragment = new MonthFragment();
+        }
+
+        return fragment;
+    }
+
+    @Override
+    public int getCount() {
+        return 3;
+    }
+}
+

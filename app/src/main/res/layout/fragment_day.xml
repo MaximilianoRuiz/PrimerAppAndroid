@@ -2,10 +2,50 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.example.maxi.nomorefat.DayFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout android:id="@+id/tab1"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Days" />
+        android:background="#ff9bc3dc"
+        android:weightSum="1">
+
+        <TextView android:id="@+id/textView1"
+            android:text="Contenido Tab 1 - Reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listView1"
+            android:layout_below="@+id/textView1"
+            android:divider="#00ffb8cb"/>
+
+        <Button
+            android:layout_width="47dp"
+            android:layout_height="45dp"
+            android:background="@drawable/btn_circle"
+            android:text="%"
+            android:layout_gravity="right"
+            android:textSize="30dp"
+            android:layout_below="@+id/listView1"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:nestedScrollingEnabled="false"
+            android:onClick="waitingToast"/>
+
+        <Button
+            android:layout_width="47dp"
+            android:layout_height="45dp"
+            android:background="@drawable/btn_circle"
+            android:text="+"
+            android:textSize="30dp"
+            android:layout_gravity="left"
+            android:layout_below="@+id/listView1"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:onClick="addDayDialog"/>
+
+    </RelativeLayout>
 
 </FrameLayout>
